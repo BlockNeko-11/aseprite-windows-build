@@ -14,20 +14,16 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
 
-      - name: install wget
-        run: |
-          curl -o wget.exe -L "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe"
-
       - name: download aseprite
         run: |
-          wget -O Aseprite.zip https://github.com/aseprite/aseprite/releases/download/${{ inputs.aseprite_version }}/Aseprite-${{ inputs.aseprite_version }}-Source.zip
+          curl -o Aseprite.zip -L https://github.com/aseprite/aseprite/releases/download/${{ inputs.aseprite_version }}/Aseprite-${{ inputs.aseprite_version }}-Source.zip
           unzip Aseprite.zip -d aseprite
           mkdir -d aseprite/build
       
       - name: download aseprite/skia (release m124)
         run: |
-          wget -O Skia.zip https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip
-          unzip Skia.zip skia
+          curl -o Skia.zip -L https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip
+          unzip Skia.zip -d skia
 
       - name: install cmake & ninja
         run: |
@@ -45,8 +41,8 @@ jobs:
       
       - name: clean up
         shell: cmd
+        working-directory: aseprite/build
         run: |
-          cd aseprite\build\bin
           del gen.exe gen.exe.manifest modp_b64_gen.exe modp_b64_gen.exe.manifest
         
 #      - name: make portable zip
