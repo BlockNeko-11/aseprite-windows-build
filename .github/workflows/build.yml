@@ -15,21 +15,17 @@ jobs:
         uses: actions/checkout@v7
 
       - name: download aseprite
-        shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://github.com/aseprite/aseprite/releases/download/$RELEASE/Aseprite-$RELEASE-Source.zip" -OutFile Aseprite.zip
-          Expand-Archive -Path Aseprite.zip -DestinationPath C:\aseprite
-        env:
-          RELEASE: ${{ inputs.aseprite_version }}
+          wget -O Aseprite.zip https://github.com/aseprite/aseprite/releases/download/${{ inputs.aseprite_version }}/Aseprite-${{ inputs.aseprite_version }}-Source.zip
+          unzip Aseprite.zip -d aseprite
+          mkdir -d aseprite/build
       
       - name: download aseprite/skia (release m124)
-        shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip" -OutFile Skia.zip
-          Expand-Archive -Path Skia.zip C:\Skia
+          wget -O Skia.zip https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip
+          unzip Skia.zip skia
 
       - name: install cmake & ninja
-        shell: pwsh
         run: |
           winget install -e --id Kitware.CMake
           winget install Ninja-build.Ninja
@@ -38,27 +34,23 @@ jobs:
         uses: seanmiddleditch/gha-setup-vsdevenv@v5
       
       - name: run cmake
-        shell: push
+        working-directory: aseprite/build
         run: |
-          cd C:\aseprite
-          mkdir build
-          cd build
           cmake -DCMAKE_BUILD_TYPE=RELEASE -DLAF_BACKEND=skia -DSKIA_DIR=C:\Skia -DSKIA_LIBRARY_DIR=C:\Skia\out\Release-x64 -DSKIA_LIBRARY=C:\Skia\out\Release-x64\skia.lib -G Ninja ..
           ninja aseprite
       
       - name: clean up
-        shell: pwsh
+        shell: cmd
         run: |
-          cd C:\aseprite\build\bin
-          Remove-Item -Path "gen.exe" "gen.exe.manifest" "modp_b64_gen.exe" "modp_b64_gen.exe.manifest"
+          cd aseprite\build\bin
+          del gen.exe gen.exe.manifest modp_b64_gen.exe modp_b64_gen.exe.manifest
         
 #      - name: make portable zip
-#        shell: pwsh
 #        run: |
-#          cd C:\aseprite\build\bin
+#          cd aseprite\build\bin
 #          7z -tzip a Aseprite-Windows-Protable.zip *
       
       - name: upload artifact
         uses: actions/upload-artifact@v7
         with:
-          path: C:\aseprite\build\bin
+          path: aseprite\build\bin
