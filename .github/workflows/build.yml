@@ -29,10 +29,13 @@ jobs:
           curl -o Skia.zip -L https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip
           unzip Skia.zip -d skia
 
-      - name: install cmake & ninja
-        run: |
-          winget install -e --id Kitware.CMake
-          winget install Ninja-build.Ninja
+#      - name: install cmake & ninja
+#        run: |
+#          winget install -e --id Kitware.CMake
+#          winget install Ninja-build.Ninja
+
+      - name: install ninja
+        uses: aseprite/get-ninja@main
 
       - name: setup vs dev env
         uses: seanmiddleditch/gha-setup-vsdevenv@v5
