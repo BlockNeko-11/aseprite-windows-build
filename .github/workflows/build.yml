@@ -17,8 +17,10 @@ jobs:
       - name: download aseprite
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://github.com/aseprite/aseprite/releases/download/${{ inputs.aseprite_version }}/Aseprite-${{ inputs.aseprite_version }}-Source.zip" -OutFile Aseprite.zip
+          Invoke-WebRequest -Uri "https://github.com/aseprite/aseprite/releases/download/$RELEASE/Aseprite-$RELEASE-Source.zip" -OutFile Aseprite.zip
           Expand-Archive -Path Aseprite.zip -DestinationPath C:\aseprite
+        env:
+          RELEASE: ${{ inputs.aseprite_version }}
       
       - name: download aseprite/skia (release m124)
         shell: pwsh
