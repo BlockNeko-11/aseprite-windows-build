@@ -16,7 +16,7 @@ jobs:
 
       - name: install wget
         run: |
-          winget install GnuWin32.Wget --accept-source-agreements --accept-package-agreements
+          curl -o wget.exe -L "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe"
 
       - name: download aseprite
         run: |
