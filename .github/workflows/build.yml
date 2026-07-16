@@ -17,13 +17,13 @@ jobs:
       - name: download aseprite
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri https://github.com/aseprite/aseprite/releases/download/${{ inputs.aseprite_version }}/Aseprite-${{ inputs.aseprite_version }}-Source.zip -OutFile Aseprite.zip
+          Invoke-WebRequest -Uri "https://github.com/aseprite/aseprite/releases/download/${{ inputs.aseprite_version }}/Aseprite-${{ inputs.aseprite_version }}-Source.zip" -OutFile Aseprite.zip
           Expand-Archive -Path Aseprite.zip -DestinationPath C:\aseprite
       
       - name: download aseprite/skia (release m124)
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip -OutFile Skia.zip
+          Invoke-WebRequest -Uri "https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip" -OutFile Skia.zip
           Expand-Archive -Path Skia.zip C:\Skia
 
       - name: install cmake & ninja
