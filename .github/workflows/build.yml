@@ -16,7 +16,7 @@ jobs:
 
       - name: install wget
         run: |
-          winget install GnuWin32.Wget --accept-package-agreements
+          winget install GnuWin32.Wget --accept-source-agreements --accept-package-agreements
 
       - name: download aseprite
         run: |
