@@ -14,19 +14,19 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
 
-      - name: install wget
-        run: |
-          choco install wget -y --no-progress
+#      - name: install wget
+#        run: |
+#          choco install wget -y --no-progress
 
       - name: download aseprite
         run: |
-          wget -O Aseprite.zip https://github.com/aseprite/aseprite/releases/download/${{ inputs.aseprite_version }}/Aseprite-${{ inputs.aseprite_version }}-Source.zip
+          curl -o Aseprite.zip -L https://github.com/aseprite/aseprite/releases/download/v${{ inputs.aseprite_version }}/Aseprite-v${{ inputs.aseprite_version }}-Source.zip
           unzip Aseprite.zip -d aseprite
           mkdir -d aseprite/build
       
       - name: download aseprite/skia (release m124)
         run: |
-          wget -O Skia.zip https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip
+          curl -o Skia.zip -L https://github.com/aseprite/skia/releases/download/m124-08a5439a6b/Skia-Windows-Release-x64.zip
           unzip Skia.zip -d skia
 
       - name: install cmake & ninja
