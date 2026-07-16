@@ -16,8 +16,7 @@ jobs:
 
       - name: install wget
         run: |
-          winget source remove msstore
-          winget install GnuWin32.Wget --accept-source-agreements --accept-package-agreements --disable-interactivity
+          winget install GnuWin32.Wget --accept-source-agreements --accept-package-agreements --disable-interactivity --locale en-US
 
       - name: download aseprite
         run: |
