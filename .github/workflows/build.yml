@@ -37,15 +37,13 @@ jobs:
       - name: install ninja
         uses: aseprite/get-ninja@main
 
-      - name: setup vs dev env
-        uses: seanmiddleditch/gha-setup-vsdevenv@v5
+      - name: configure Developer Command Prompt for MSVC
+        uses: ilammy/msvc-dev-cmd@v1
       
       - name: run cmake
-        shell: cmd
-        working-directory: aseprite
+        working-directory: aseprite/build
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\skia\out\Release-x64\skia.lib
-          cd build
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\skia\out\Release-x64\skia.lib -G .. Ninja
           ninja aseprite
       
       - name: upload artifact
