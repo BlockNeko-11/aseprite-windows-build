@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - name: checkout
         uses: actions/checkout@v7
@@ -37,14 +37,15 @@ jobs:
       - name: install ninja
         uses: aseprite/get-ninja@main
 
-      - name: configure Developer Command Prompt for MSVC
-        uses: ilammy/msvc-dev-cmd@v1
+#      - name: configure Developer Command Prompt for MSVC
+#        uses: ilammy/msvc-dev-cmd@v1
       
       - name: run cmake
+        shell: cmd
         working-directory: aseprite/build
         run: |
-          $current = ($pwd).Path
-          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR="$current\..\..\skia" -DSKIA_LIBRARY_DIR="$current\..\..\skia\out\Release-x64" -DSKIA_LIBRARY="$current\..\..\skia\out\Release-x64\skia.lib" -G Ninja ..
+          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\..\skia\out\Release-x64\skia.lib -G Ninja ..
       
       - name: run ninja
         working-directory: aseprite/build
