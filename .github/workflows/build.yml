@@ -40,16 +40,12 @@ jobs:
 #      - name: configure Developer Command Prompt for MSVC
 #        uses: ilammy/msvc-dev-cmd@v1
       
-      - name: run cmake
+      - name: run cmake & ninja
         shell: cmd
         working-directory: aseprite/build
         run: |
           call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64
           cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\..\skia\out\Release-x64\skia.lib -G Ninja ..
-      
-      - name: run ninja
-        working-directory: aseprite/build
-        run: |
           ninja aseprite
       
       - name: upload artifact
