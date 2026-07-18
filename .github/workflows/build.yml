@@ -44,19 +44,8 @@ jobs:
         shell: cmd
         working-directory: aseprite/build
         run: |
-          cmake -DCMAKE_BUILD_TYPE=RELEASE -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\..\skia\out\Release-x64\skia.lib -G Ninja ..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\..\skia\out\Release-x64\skia.lib -G Ninja ..
           ninja aseprite
-      
-      - name: clean up
-        shell: cmd
-        working-directory: aseprite/build
-        run: |
-          del gen.exe gen.exe.manifest modp_b64_gen.exe modp_b64_gen.exe.manifest
-        
-#      - name: make portable zip
-#        run: |
-#          cd aseprite\build\bin
-#          7z -tzip a Aseprite-Windows-Protable.zip *
       
       - name: upload artifact
         uses: actions/upload-artifact@v7
