@@ -44,7 +44,7 @@ jobs:
         working-directory: aseprite/build
         run: |
           $current = ($pwd).Path
-          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR="$current\..\skia" -DSKIA_LIBRARY_DIR="$current\..\skia\out\Release-x64" -DSKIA_LIBRARY="$current\..\skia\out\Release-x64\skia.lib" -G Ninja ..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR="$current\..\..\skia" -DSKIA_LIBRARY_DIR="$current\..\..\skia\out\Release-x64" -DSKIA_LIBRARY="$current\..\..\skia\out\Release-x64\skia.lib" -G Ninja ..
       
       - name: run ninja
         working-directory: aseprite/build
