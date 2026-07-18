@@ -43,7 +43,11 @@ jobs:
       - name: run cmake
         working-directory: aseprite/build
         run: |
-          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\skia\out\Release-x64\skia.lib -G .. Ninja
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=($pwd).Path\..\skia -DSKIA_LIBRARY_DIR=($pwd).Path\..\skia\out\Release-x64 -DSKIA_LIBRARY=($pwd).Path\..\skia\out\Release-x64\skia.lib -G Ninja ..
+      
+      - name: run ninja
+        working-directory: aseprite/build
+        run: |
           ninja aseprite
       
       - name: upload artifact
