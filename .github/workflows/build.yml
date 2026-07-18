@@ -44,7 +44,7 @@ jobs:
         shell: cmd
         working-directory: aseprite
         run: |
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\..\skia\out\Release-x64
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\..\skia\out\Release-x64\skia.lib
           cd build
           ninja aseprite
       
