@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2025
+    runs-on: windows-latest
     steps:
       - name: checkout
         uses: actions/checkout@v7
@@ -34,21 +34,29 @@ jobs:
 #          winget install -e --id Kitware.CMake
 #          winget install Ninja-build.Ninja
 
-      - name: install ninja
-        uses: aseprite/get-ninja@main
+#      no longer use in windows-2025
+#      - name: install ninja
+#        uses: aseprite/get-ninja@main
 
-#      - name: configure Developer Command Prompt for MSVC
-#        uses: ilammy/msvc-dev-cmd@v1
+      - name: setup VS dev cmd
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
       
-      - name: run cmake & ninja
+      - name: run cmake
         shell: cmd
         working-directory: aseprite/build
         run: |
-          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64
-          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=%cd%\..\..\skia -DSKIA_LIBRARY_DIR=%cd%\..\..\skia\out\Release-x64 -DSKIA_LIBRARY=%cd%\..\..\skia\out\Release-x64\skia.lib -G Ninja ..
+          cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DENABLE_TESTS=OFF -DLAF_BACKEND=skia -DSKIA_DIR=${{ github.workspace }}\skia -DSKIA_LIBRARY_DIR=${{ github.workspace }}\skia\out\Release-x64 -DSKIA_LIBRARY=${{ github.workspace }}\skia\out\Release-x64\skia.lib -G Ninja ..
+#          call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=x64
+
+      - name: run ninja
+        working-directory: aseprite/build
+        run: |
           ninja aseprite
       
       - name: upload artifact
         uses: actions/upload-artifact@v7
         with:
+          name: Aseprite-${{ inputs.aseprite_version }}-Windows-amd64
           path: aseprite/build/bin
